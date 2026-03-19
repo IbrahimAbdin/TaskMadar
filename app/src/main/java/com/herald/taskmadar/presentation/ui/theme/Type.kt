@@ -1,4 +1,4 @@
-package com.herald.taskmadar.ui.theme
+package com.herald.taskmadar.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
