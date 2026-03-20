@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.herald.taskmadar.domain.UserModel
 import com.herald.taskmadar.domain.usecases.AddUserUseCase
+import com.herald.taskmadar.domain.usecases.DeleteUserUseCase
 import com.herald.taskmadar.domain.usecases.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UsersViewModel @Inject constructor(
     getUsersUseCase: GetUsersUseCase,
-    private val addUserUseCase: AddUserUseCase
+    private val addUserUseCase: AddUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
 
     val users: StateFlow<List<UserModel>> = getUsersUseCase()
@@ -28,12 +30,18 @@ class UsersViewModel @Inject constructor(
     fun addUser(name: String, age: String, jobTitle: String, gender: String) {
         viewModelScope.launch {
             val user = UserModel(
-                name = name,
+                name = name.trim(),
                 age = age.toIntOrNull() ?: 0,
-                jobTitle = jobTitle,
+                jobTitle = jobTitle.trim(),
                 gender = gender
             )
             addUserUseCase(user)
+        }
+    }
+
+    fun deleteUser(user: UserModel) {
+        viewModelScope.launch {
+            deleteUserUseCase(user)
         }
     }
 }

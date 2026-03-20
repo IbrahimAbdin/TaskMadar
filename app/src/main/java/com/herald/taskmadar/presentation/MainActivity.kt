@@ -5,8 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,24 +20,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskMadarTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = "user_list",
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable("user_list") {
-                            UserListScreen(
-                                onAddUser = { navController.navigate("add_user") }
-                            )
-                        }
-                        composable("add_user") {
-                            AddUserScreen(
-                                onUserAdded = {
-                                    navController.popBackStack("user_list", inclusive = false)
-                                }
-                            )
-                        }
+                NavHost(
+                    navController = navController,
+                    startDestination = "user_list",
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    composable("user_list") {
+                        UserListScreen(
+                            onAddUser = { navController.navigate("add_user") }
+                        )
+                    }
+                    composable("add_user") {
+                        AddUserScreen(
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }

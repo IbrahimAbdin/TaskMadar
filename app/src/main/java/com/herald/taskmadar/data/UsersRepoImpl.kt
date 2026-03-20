@@ -8,5 +8,6 @@ import javax.inject.Inject
 
 class UsersRepoImpl @Inject constructor(private val usersDao: UserDao): UsersRepo {
     override suspend fun addUser(user: UserModel) = usersDao.insertUser(user.toUserEntity())
+    override suspend fun deleteUser(user: UserModel) = usersDao.deleteUser(user.toUserEntity())
     override fun getUsers(): Flow<List<UserModel>> = usersDao.getAllUsers().map { it.map { userEntity -> userEntity.toUserModel() } }
 }

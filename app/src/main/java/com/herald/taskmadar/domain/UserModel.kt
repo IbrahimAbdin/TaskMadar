@@ -1,6 +1,7 @@
 package com.herald.taskmadar.domain
 
 data class UserModel(
+    val id: Int = 0,
     val name: String,
     val age: Int,
     val jobTitle: String,
